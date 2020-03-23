@@ -1,0 +1,694 @@
+{
+	"info": {
+		"_postman_id": "ccfbe9d9-1422-41e3-8835-89a9afcc4d93",
+		"name": "UsandoParametros",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "BusquedaDeVuelos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d6e4da76-f9b5-4132-9471-1baf56de6409",
+						"exec": [
+							"var responseData=JSON.parse(responseBody);",
+							"",
+							"if (responseCode.code === 200){",
+							"    tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"    switch(pm.globals.get(\"fareType\")){",
+							"        case \"ANY\": ",
+							"            postman.setGlobalVariable(\"segmentProducts0\",responseData.data.searchResults.airProducts[0].details[8].fareProducts.ADULT.ANY.productId);",
+							"            postman.setGlobalVariable(\"segmentProducts1\",responseData.data.searchResults.airProducts[1].details[1].fareProducts.ADULT.ANY.productId);",
+							"        break;",
+							"        case \"BUS\":",
+							"            postman.setGlobalVariable(\"segmentProducts0\",responseData.data.searchResults.airProducts[0].details[8].fareProducts.ADULT.BUS.productId);",
+							"            postman.setGlobalVariable(\"segmentProducts1\",responseData.data.searchResults.airProducts[1].details[1].fareProducts.ADULT.BUS.productId);",
+							"        break;",
+							"        case \"WGA\":",
+							"            postman.setGlobalVariable(\"segmentProducts0\",responseData.data.searchResults.airProducts[0].details[8].fareProducts.ADULT.WGA.productId);",
+							"            postman.setGlobalVariable(\"segmentProducts1\",responseData.data.searchResults.airProducts[1].details[1].fareProducts.ADULT.WGA.productId);",
+							"        break;",
+							"    }",
+							"    console.log(\"shopping Success!!\");",
+							"}",
+							"else{",
+							"    console.log(\"shopping Failed!\");",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0a090473-7cf5-46c5-9bec-bcebd5600be2",
+						"exec": [
+							"pm.globals.set(\"checkIn\", data.checkIn);",
+							"pm.globals.set(\"fareType\", data.fareType);",
+							"pm.globals.set(\"international\", data.international);",
+							"pm.globals.set(\"departure\", data.departure);",
+							"pm.globals.set(\"arrival\", data.arrival);",
+							"pm.globals.set(\"environment\", data.environment);",
+							"pm.globals.set(\"creditCard\", data.cardNumber);",
+							"pm.globals.set(\"RR\", data.rapidReward);",
+							"pm.globals.set(\"firstName\", data.firstName);",
+							"pm.globals.set(\"lastName\", data.lastName);",
+							"pm.globals.set(\"paxNumber\", data.paxNumber);",
+							"pm.globals.set(\"segmentProducts0\", \"Test\");",
+							"pm.globals.set(\"segmentProducts1\", \"Test\");",
+							"pm.globals.set(\"secondPaxLastName\", makeid());",
+							"pm.globals.set(\"secondPaxName\", makeid());",
+							"pm.globals.set(\"thridPaxLastName\", makeid());",
+							"pm.globals.set(\"thirdPaxName\", makeid());",
+							"",
+							"function makeDate(days) {",
+							"    var fechaAUsar = new Date();",
+							"    var dd = fechaAUsar.getDate() + days;",
+							"    var mm = fechaAUsar.getMonth() + 1;",
+							"    var yyyy = fechaAUsar.getFullYear();",
+							"",
+							"    if (mm < 10) {",
+							"        if (dd < 10) {",
+							"            fechaAUsar = yyyy + \"-0\" + String(mm) + \"-0\" + String(dd);",
+							"        } else {",
+							"            fechaAUsar = yyyy + \"-0\" + String(mm) + \"-\" + String(dd);",
+							"        }",
+							"    } else {",
+							"        if (dd < 10) {",
+							"            fechaAUsar = yyyy + \"-\" + String(mm) + \"-0\" + String(dd);",
+							"        } else {",
+							"            fechaAUsar = yyyy + \"-\" + String(mm) + \"-\" + String(dd);",
+							"        }",
+							"    }",
+							"    return fechaAUsar;",
+							"}",
+							"",
+							"function makeid() {",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\";",
+							"",
+							"    for (var i = 0; i < 5; i++)",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"",
+							"if (pm.globals.get(\"checkIn\")===\"true\") {",
+							"    pm.globals.set(\"departureDate\", makeDate(0));",
+							"    pm.globals.set(\"returnDate\", makeDate(1));",
+							"} else {",
+							"    pm.globals.set(\"departureDate\", makeDate(9));",
+							"    pm.globals.set(\"returnDate\", makeDate(10));",
+							"}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "sec-fetch-mode",
+						"value": "cors"
+					},
+					{
+						"key": "origin",
+						"value": "https://southwest.{{environment}}.southwest.com"
+					},
+					{
+						"key": "accept-encoding",
+						"value": "gzip, deflate, br"
+					},
+					{
+						"key": "x-user-experience-id",
+						"value": "6d4de70e-0424-44d5-8f1c-aab965f10744"
+					},
+					{
+						"key": "accept-language",
+						"value": "en-US,en;q=0.9"
+					},
+					{
+						"key": "ee30zvqlwf-z",
+						"value": "p"
+					},
+					{
+						"key": "authorization",
+						"value": "null null"
+					},
+					{
+						"key": "ee30zvqlwf-d",
+						"value": "o_0"
+					},
+					{
+						"key": "x-api-idtoken",
+						"value": "null"
+					},
+					{
+						"key": "cookie",
+						"value": "s_ecid=MCMID%7C75460924094402699051210711651239037077; s_fid=0DFB585A29A1DD7D-3DB0627BDEA46E60; MPEL=EL; check=true; AMCVS_65D316D751E563EC0A490D4C%40AdobeOrg=1; s_cc=true; valid_promo=false; versaTag-orderID=9xppndop6kf; first_landing=true; AMCV_65D316D751E563EC0A490D4C%40AdobeOrg=-1303530583%7CMCIDTS%7C18149%7CMCMID%7C75460924094402699051210711651239037077%7CMCAAMLH-1568728516%7C4%7CMCAAMB-1568728516%7CRKhpRz8krg2tLO6pguXWp5olkAcUniQYPHaMWWgdJ3xzPWQmdj0y%7CMCOPTOUT-1568130034s%7CNONE%7CMCAID%7CNONE%7CMCSYNCSOP%7C411-18145%7CvVersion%7C3.3.0%7CMCCIDH%7C687476789; SwaSessionCookie=2F10998301834254B9683BBC8C84E28E; SwaRegionCookie=sessions; _derived_epik=dj0yJnU9Sk9DaThuMzRFdXh5U3JQdE9Ndk5WMGtQRDdnV1NvSlAmbj1wc29hbDY0SFlCcWNXaG8temZnVkR3Jm09NyZ0PUFBQUFBRjEzclNZ; _br_uid_2=uid%3D9891871623196%3Av%3D11.8%3Ats%3D1567086113953%3Ahc%3D48; mbox=PC#3c075ca3d1974f13871652183f3bae6e.17_130#1631369297|session#e31ae90c1ab94244b336274ae1737cde#1568126357; s_gpv_pn=BOOK%3AAIR%3APlan%20Trip%20Page; s_sq=%5B%5BB%5D%5D"
+					},
+					{
+						"key": "ee30zvqlwf-f",
+						"value": "A9GGgRttAQAALfisN1Is4lPBx8qeRnvMvrlzvCv9ayT4v8uWNUn8Hp4g1EMlAdENm2Oucn01wH8AADQwAAAAAA=="
+					},
+					{
+						"key": "ee30zvqlwf-c",
+						"value": "A0rofxttAQAAAFfFKqIqpkDapnexDvw3vAwm8i7ZPsc_y5Vf4HGCtSTFmOPmAUGqKQWucn01wH8AAEB3AAAAAA=="
+					},
+					{
+						"key": "x-channel-id",
+						"value": "southwest"
+					},
+					{
+						"key": "ee30zvqlwf-a",
+						"value": "9lOm0iput=bQ-twDhKOny=Y3chAEkEnl2Uf5WSAelBqt7bhK9mTlrQkxnZ-0q=OADm_AVOS---Q5pjrUs1-BfNoyOC0Yb8JLk4V4VhEnp7Qa-j6pmRz9YAbei6LQ3TO5Kcr8htrZQo3YMpJOog7UcSo1QiueOMX2jEE=SLBKOlHkM4TBBI70qe_Y-jskBovFUSkszzJLQvvuftFKo6pYOmIzD_pm484xKu4Eho2g=y-upmqg4cTtRbY2U8nT6GAzljsyxLNySMKiRbMSARb=GRHo4MmKUprPw0H4ce9wITbG2rZzEuMpqwD2rgKHegg2H08PeeMy8sGWAEEncrZz6ohZROkBnkQtOFUha_sjuysG2fZZC6HusR_O_xn9Xjm_p9wowMoIhuUyIlFeQEwJtpjn7NTmA7SY2Ksi9pyyXbc0ZDmq3fYR==4m4-vo0jfEGeST0cfvcnhL2rhcgNAqpJWGzu545nXWQc4YVcHt=WucFVkxM1O7CzVe2zV_ktqVOcsj12NFyf_UkWD9S9NFzvm7fNRjF=xUjtKMSQUpajKnyqKu7DCnDEWWO4GXb8zioIl3-j3UOYNaeK1vg2UyKGI91YxwbLn6Pj0K8T6fncTbIoUaJzMD3QHM9C_sNVXorKphmoMq-tNuu5pttKswwDi0o1w5VPiPDl1VQXowj7XoDywaSoAwNKNGDwgBUO_tsWKxDEIYW26j8i7UseBAgz1Iy-EwnYD9xeZsU8Gs0VgLWlFygXxTF-5ZCTy8xqFfEXvBUjKC0EgyybfHqTqRJOOJYcH-F4Os3kYwVkpLeJolMOp-RafQubQwMxqF49SsFawcZcVHNCegt_o=v1sGtmOqTVKNjMUQ1xcgos5F_pEhX9NIz6L2Oxj3u08Sku_SRyLWTjrekUTanKgeXKDtJVuiAK_3xFkCT98cTepP6BEAWsZhAjiy43wB_bHQgr0rWQ1j0YcO3Pk28J_V5RUyeSJ3qwq5r0IlHhJ2UMromAgHGypOGnGyTGgPmgX8_EUf_gpaj7hcl8bjkNellP1CXehnHnLvo1_m5W96tybUzL0WbNl=78fPgVpR8Xzgro4fUXiVPf=l9Wxej_tse1SgWhlmaVpX4Ngj-kxolPNCokRJc7kx0mwTPK2I6UxcwKKq3nIKPjXf-AE3b6-tiAV9YL8xwAeGsu=SRilvjeGoNqxhTpWXYLcD25BUcia=ey_13_Fq4RP=eIzivWz6f4H_RBr8GclM0Bcf1Gskyb=liHiNEzNIgm0LszqeUk3v6l5uzMW0wMwU_VmfDKFMfm4P7cic2IMSbNH88mzWKqHe6pYKi-iklhHykIU-ZF5B-ChG7SsLMwYB2bI533E0BqEahI_CXCuu0Yj9QYwluLvOiBkSNCCzmieyZPvzhh5s_NJB8lH1L82cuJUsIkNz-DfBi88WaSGVEJIIka8V3uGW-g8pgEznv=Rb5rixUfFtcqPKwsMk9RUjg=lqDb9wDCOgSKlxi8jbL-uHPl4sDQwEaeHqOkb4C8wFhIUFLWh1S0743iYo45E-w-SO1CT_BlhfDDuy=0MyFpECHk1PfqhLGfQlZNq=xP3ztnPUHDq8FV6o-LgZZ8g0P6P9iEbA5OsLWZ-f5s61hBmVrtspBo3vyVwTty2g4WhZ4e4gjTljc9pe3WPGk_qcgbtZDnP6O3=gHX3Zg=O9qSWV1Gyn3q8JYbBZUTYJFE4lKuwPfgW_UfqUz89NjNLqRIuio0kXvEucMKWxwTvuyNBFz0MC_kLgSJTCJLUsiZ7TP1ejx0Yq3ELISG7FV-jstK4cEx95Pgz_K6l-lo1gXFsknpeAo5UUCL8PsH6btS0XBnGW944FEQxb_CkZ39cV-vyuSyw9-aGKMt6Bvse0WN7tjXD70G0gvBDZ7ZHBOziHyEA0qTLEb6aUWSR8FyueUKuZxzz80PPb4E4ycoYvGIJgw3ffAur1X5l9rzjqFK=JUBN-cWiQM_8otzvklz0m=V4IDOSWNrJRv-SzolCsB3K99u0Sxmq2OKlJ43tKy4favFKpKMG2KqKVg4Rc=6vn=UfkhUHpDX6oFmKRGpO1D084fP3EOAMsz-pRzeVr2eUhWv-=U-vh4_rDDHnzI6chT6aqt_39qrDMhJyN3MM-NVb1FP86v6Ds_CgIgAiP2YfrQDH9MMiw6rwu=tDV4DQ7CKB-ovyl4FUUxj4inJ6j7tvl8Lmp0QoNB6AnyrX7krtsJ5kH=RjL2l=PRtFL3CDljJVfcb9Dk2ySgWEmPIj456vqCYEcnxl8VPjr00iM-MlOSR9JpCL5b=8fuSETEAC2Pbljt00l_Fqamg8l6z1ejDQuwnXvUPOcEYCzeO2-luF=BjBfqXDYmQjHniQKaK=UvWB_ILrnVq25lXWKzzv0GFJvrYzppRGTafY00O3tnwGfiXeQf6KlFSDU-rnKZ7KXRopnE05MMZzHPUjOBN8EBsxrmiRBirCNM_xL8cpqXrMlVLiQRTtH75ncB_g4sBSbO079u2tTyY=URG-NFjf7zkMShUb85AwLxi4f6BIEEllrR0Jjlo51GvPiZ85CG5V-PQr9i0JPywMce6YqDQ7YLgcYH6=_s8romGil9SFAvjERVil_SaFwUlosm5mJNqhANPahAmn2fw8jyBv0IU1ZAvU0pvwG2qVY0fjBQnCFgMEpPWTa0JZrwb2PAEhUFkiAYx=qb2DolSp9kMO7I7Q8rocSiPf2emfOtgP1mLa_2Y8R6vy5j6rjwc8yQ-bsFl=iAN=P=hXtmSrau1TIl_eqfV20iFLQecYaIUWO-0lWUuw8PXlcvAmQMsV4jUOYeZ=GUj7gYOlPSIf4J7S8wmx8NttEjKbafWshiv4FIpfVq_8euSzBJstuW2T6QPhOQ4WPxCk9b=FTwpgCWksEaib5xYru7qrE393RjqjGpuQ5PvuaRhNVrJ2sKziSMvWZILqIv3My-ztgRO-waHNgBttu3t76yIWAoHIHqpHw997zOHTX=oUs5CcZC_fiCmV=1YRbFGIfu9oENwl4YJg-E=ykPyC4CFG=WIwEbOw_lVHX9tvl-C3JYywx0p=HKLpUYlSthF08pwz40kD5no7983j2FXTVcqPg=KwxVKEPsR71h4E4C-ZuClXRcjjfxCQiO-30TbKRrR0XUNxJVtLRsmBCUIte6Xqqx-_5IcO=TTCC1IQs1FRof-oOV3gKpZc1kfbTXNhUUiQh1Z5-u7m_9lPoT=ziz3ELvPbi4AlPBcFBVwR=IxscHAOrc=zHV5cwmrXCsKayxe0IajI3Dm01tHQYbYXKh5Nn0y58uTOY90sV8HKfeceDIotW=1X1TYcUHhfEwF0a=NUc7UZEFzrkqFKuyAtXLO2xtAzVRFLqkiK7Ttj--1w7sykH3I-9VyZRQrJQV73iDgPTLB1p4_mMFEZ3SM6GNu5rCGBRQyO2WWOVQjILuUkOwSwDMxP1=fvwpWTkIla=4Phonjs2pXh0bpeLtQ-B6npgQKXrMJxpsbrIjjzUbh1sjrBwHcpkO0LHiAW-mTBUrZVDbLX-1QIgKXOxpte74hD8zQit2YWEaO3nX4Ry6_whoy3rU4GsZTgob3QTjB8BZoyvOrsEPj5I8yBEIEu7VBmDl6obLhn8yGEi0wCGEZjy26SVShQOoAvPPQQyF1mBD6lng-Nnoyg_HX-SXM8_-6-yc90l4PLq7uq6uZ15ofeH3szW1qB=WHhbC7HGRAKiavjCOpvhZ_aMjiNvsaKRG0xNjIPuBL2LVkfvwSRgtUofHTXYTbYaBMivGWcaYPc4mRYKhYN1vQyg_-Q7G6-a4Yv8Xvg_zZUWSCfv54iLRvFpbfy=rkyrY9TAXRuUU3MhpTzqi7K=9JF5xDar8RgO=rV8mqOxllsQ1aRA8NtcY-wH7qu-gMAAUTbgu4G7YzPlVb=JJFHTNlF173e6S5g3nn8NF0WtFrq0=rxkjpLVKzOAeUaxFR-qt2crL4H4c0KGgBM=6ibHubyNT10BLhFHsZr_o5L_ScDqV6vDAYM02tWxPzUfGxYoQbQRifOh5H5Aqcu6DCF-5yOsgmFUEs-bl4ihUqI4nzMWCohMyy1==ELmDC9GETgahNAVqyV9LrKOltNczf-oWweln=KFNB5gsel4gufVm-IANtHwk0HfVCiiJWy9KCZ14JqSIB6siW1a8sZ7SuuQ13GTUaNb3LjAaOogSH8b9zs-Kgofl9CrViPgKYbDZXAV4=kOK4vzHXBfoZIINc_Yz1emnoQ4An-JiS1UUGEEIsGt1QaT=Xb97EFYpyYA0qxnIMZxb6EsxLRj8J18Rpw-Yxw7Tr3Jn7Kg6KINeoZinhoLVnA2UzPDtsWWjg_MZgyJ-xv9OXvO65urqJ2OBmxx0bskWqlvI-NCj_BJ6gSbZ=qyYAuv_5Rx=AKKtqjY3Oha_eohRA7-p9jgH4=IFQS9uHnrtcRfx-b6t1IRfo6o3ork6pGFF3iapTEHP5WL56Oy9izQ1cXLDg859DK=oXK6pzq7jpgly2uB7rxPq=5tCTZ4zwN5c3WZYy-yXf6hYp43zLflx9-I8wYjK6gSmz4T4oEuLEV0H8Wwys1-tiNNkEh5QcW4HVRB=3-yrlin5qIeKFvU3ZXY7qjhWHwrXZNJwGoiUw-CEH6=lU0a76XWUcXwEq7iwITo5jyhtOSKT3XNcGsWZIFvWCpnBOvOv1RefCLCz6u=5_P-y8fRI-IkR33nmMP_UebkxGbfHMz6rPLgza7cqsV7wZBzDaN91hXKqn0UaQ5Fy9PONcCYolXyPgaezsukZCL-G3-mGkry7EvXjuhAKbIcj3PEFaGbymskUFN4uGsys0m0K10GGzps3uBteZpSbAqNRGJ5vOe2EbUuskn=GGiYluhxfEE=9HLwK2nNF2BAo6tFxz5JIexJNMNDf=0GUneg8bNSNZMRgkA=NAfnASUyzQtSJSNirUQv6L-UC5pcsM=2QxejpcjiwbF4RFlGVyu_KWz8wASoTXqTnMoS2XxWXYtZWpEZ83NUTpMo_8hPcCwGZqT-i1LhXMu73VQDkjhBs49qi5eb4kQllV-Q4TMv7P9Nzrk8jpa=D8LqFVArxsgL9uC780Yj=0x6oc-uIgUcapVJbXbzornwSOo79cDfZgl2kVaZ_4tXQcerr=rOrRHBeCziG9hbXTeIwvFYp_R-G=E6bIBJWRjD9B6CY5D5INeyiVP5Cc3OIKlaQ_ZecexXlriSQ08IcUw=PCP=BJFWJmjiZwP7u74wLN0AQlHIxDlzqeifRXKJygAcBKmTJAettfS-ojrAfMv4w-uA_StQf3l4Zlv21=_bb=HDwN6qOjs_WTNHowUFLLhWZeDxR9kei51CwX2BKFf5uv3hy8Wk19lHs-T=XoymF4ihaJroyJQye=QPR0w3S4Fxk8kqaqp-86qz4-3Ef6gtfxg97wTT_EG94-nApW9KMc20T_UT3Z5exkyAw45_ET9s5tF5MtKq9neaeaivDrIF4ZGFPqmclEcSrT0Fc1oEfzjIiiRYDbRUtlLC43FLETIPP-5NnulhpGsNt3p1Wshk22WxgCLw2UILp9FZYmuRvhmIYgAml-koMNlFrEh=aM0PUHtCAs3kh-LDMrVe5jUkyNMkssqG_iCQXQDuXODIlaCjzjXMcIQ9-VW3iX967Pj=6akxs_E21K=k_92Mlhkc2A1uY=TfczCgnR2uR1HWGVI3gqNAcarJLU0qFXX-HQpF0oFareuuCv7qkRntkD6oP0rMIxU9Q--zWvrvk3VyW4jJ_yrCyh2bi5v7qSfqsB2h4E6gty54yxykxfc9htW-DI9sTXu4-r2KFP7fmsEkczoGE2Y14C49=aCOioG0=9nFoa6PH1x8w1fsoSIzV8-_Mx0aLr6faOAGxkEtkT6KNOAKTTswmAf_r=m446w39NBmjrVbgI-ILvCZ8Enb0YX8UGZ04Gf7PWXvp82qLXQWBv0CsXkFJe5EJLV2qGh=IUNfhrlniNbuf3tbSt37OvKakjVXVjwOm8_h2tjVnE-EZ1=-qlUAXyQab8uQFv4THw2lTMCOQ8R6G=CQQlnNnF0Ci1iuZYeh9TW_PXCzB6icQhNw"
+					},
+					{
+						"key": "user-agent",
+						"value": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"
+					},
+					{
+						"key": "content-type",
+						"value": "application/json"
+					},
+					{
+						"key": "accept",
+						"value": "application/json, text/javascript, */*; q=0.01"
+					},
+					{
+						"key": "referer",
+						"value": "https://southwest.{{environment}}.southwest.com/air/booking/index.html?clk=GSUBNAV-AIR-BOOK"
+					},
+					{
+						"key": "authority",
+						"value": "southwest.{{environment}}.southwest.com"
+					},
+					{
+						"key": "sec-fetch-site",
+						"value": "same-origin"
+					},
+					{
+						"key": "x-api-key",
+						"value": "l7xx72f4d7a942b94b648fddadedcc7fe4f3"
+					},
+					{
+						"key": "ee30zvqlwf-b",
+						"value": "oxvt"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \n   \"originationAirportCode\":\"{{departure}}\",\n   \"destinationAirportCode\":\"{{arrival}}\",\n   \"departureDate\":\"{{departureDate}}\",\n   \"returnDate\":\"{{returnDate}}\",\n   \"departureTimeOfDay\":\"ALL_DAY\",\n   \"returnTimeOfDay\":\"ALL_DAY\",\n   \"adultPassengersCount\":\"{{paxNumber}}\",\n   \"seniorPassengersCount\":\"0\",\n   \"tripType\":\"roundtrip\",\n   \"fareType\":\"USD\",\n   \"passengerType\":\"ADULT\",\n   \"application\":\"air-booking\",\n   \"site\":\"southwest\"\n}"
+				},
+				"url": {
+					"raw": "https://southwest.{{environment}}.southwest.com/api/air-booking/v1/air-booking/page/air/booking/shopping",
+					"protocol": "https",
+					"host": [
+						"southwest",
+						"{{environment}}",
+						"southwest",
+						"com"
+					],
+					"path": [
+						"api",
+						"air-booking",
+						"v1",
+						"air-booking",
+						"page",
+						"air",
+						"booking",
+						"shopping"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SelectFare",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6cab089d-8d8c-4c7d-b42f-02eb319f92ab",
+						"exec": [
+							"var responseData=JSON.parse(responseBody);",
+							"",
+							"postman.setGlobalVariable(\"baseFare\",responseData.data.priceFlightsResults.itineraryPricings[0].pricingRecord.fare.baseFare.value);",
+							"postman.setGlobalVariable(\"taxFare\",responseData.data.priceFlightsResults.itineraryPricings[0].pricingRecord.fare.totalTaxesAndFees.value);",
+							"postman.setGlobalVariable(\"totalFare\",responseData.data.priceFlightsResults.itineraryPricings[0].pricingRecord.fare.totalFare.value);",
+							"",
+							"if (responseCode.code === 200){",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"console.log(\"PRICE Success!!\");",
+							"}",
+							"else{",
+							"    console.log(\"price Failed!\");",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "80bd3540-9021-419a-80c7-5a047f22333a",
+						"exec": [
+							"",
+							"switch(pm.globals.get(\"paxNumber\")){",
+							"    case 1: passengerList = [{",
+							"        \"passengerFirstName\":\"{{firstName}}\",",
+							"         \"passengerMiddleName\":\"\",",
+							"         \"passengerLastName\":\"{{lastName}}\",",
+							"         \"passengerSuffix\":\"0\",",
+							"         \"passengerGender\":\"FEMALE\",",
+							"         \"passengerDateOfBirth\":\"1985-08-01\",",
+							"         \"passengerRapidRewards\":\"{{RR}}\",",
+							"         \"passengerRedressTravelerNumber\":\"\",",
+							"         \"passengerKnownTravelerNumber\":\"\",",
+							"         \"passengerPassportCountryOfResidence\":\"\",",
+							"         \"passengerPassportExpirationDate\":\"\",",
+							"         \"passengerPassportIssuedBy\":\"\",",
+							"         \"passengerPassportNationality\":\"\",",
+							"         \"passengerPassportNumber\":\"\",",
+							"         \"passengerDisabilityBlind\":false,",
+							"         \"passengerDisabilityDeaf\":false,",
+							"         \"passengerDisabilityCognitive\":false,",
+							"         \"passengerDisabilityAssistanceAnimal\":false,",
+							"         \"passengerDisabilityEmotionalAnimal\":false,",
+							"         \"passengerDisabilityWheelchairAssistance\":\"NO_NEEDED\",",
+							"         \"passengerDisabilityWheelchairStowage\":\"NO_NEEDED\",",
+							"         \"passengerDisabilitySpillableBatteries\":\"0\",",
+							"         \"passengerDisabilityNonSpillableBatteries\":\"0\",",
+							"         \"passengerDisabilityPeanut\":false,",
+							"         \"passengerDisabilityOxygen\":false,",
+							"         \"passengerType\":\"ADULT\"",
+							"    }];break;",
+							"    case 2:passengerList = [{",
+							"        \"passengerFirstName\":\"{{firstName}}\",",
+							"         \"passengerMiddleName\":\"\",",
+							"         \"passengerLastName\":\"{{lastName}}\",",
+							"         \"passengerSuffix\":\"0\",",
+							"         \"passengerGender\":\"FEMALE\",",
+							"         \"passengerDateOfBirth\":\"1985-08-01\",",
+							"         \"passengerRapidRewards\":\"{{RR}}\",",
+							"         \"passengerRedressTravelerNumber\":\"\",",
+							"         \"passengerKnownTravelerNumber\":\"\",",
+							"         \"passengerPassportCountryOfResidence\":\"\",",
+							"         \"passengerPassportExpirationDate\":\"\",",
+							"         \"passengerPassportIssuedBy\":\"\",",
+							"         \"passengerPassportNationality\":\"\",",
+							"         \"passengerPassportNumber\":\"\",",
+							"         \"passengerDisabilityBlind\":false,",
+							"         \"passengerDisabilityDeaf\":false,",
+							"         \"passengerDisabilityCognitive\":false,",
+							"         \"passengerDisabilityAssistanceAnimal\":false,",
+							"         \"passengerDisabilityEmotionalAnimal\":false,",
+							"         \"passengerDisabilityWheelchairAssistance\":\"NO_NEEDED\",",
+							"         \"passengerDisabilityWheelchairStowage\":\"NO_NEEDED\",",
+							"         \"passengerDisabilitySpillableBatteries\":\"0\",",
+							"         \"passengerDisabilityNonSpillableBatteries\":\"0\",",
+							"         \"passengerDisabilityPeanut\":false,",
+							"         \"passengerDisabilityOxygen\":false,",
+							"         \"passengerType\":\"ADULT\"",
+							"    },{",
+							"         \"passengerFirstName\":\"Test\",",
+							"         \"passengerMiddleName\":\"\",",
+							"         \"passengerLastName\":\"One\",",
+							"         \"passengerSuffix\":\"0\",",
+							"         \"passengerGender\":\"FEMALE\",",
+							"         \"passengerDateOfBirth\":\"1985-08-01\",",
+							"         \"passengerRapidRewards\":\"\",",
+							"         \"passengerRedressTravelerNumber\":\"\",",
+							"         \"passengerKnownTravelerNumber\":\"\",",
+							"         \"passengerPassportCountryOfResidence\":\"\",",
+							"         \"passengerPassportExpirationDate\":\"\",",
+							"         \"passengerPassportIssuedBy\":\"\",",
+							"         \"passengerPassportNationality\":\"\",",
+							"         \"passengerPassportNumber\":\"\",",
+							"         \"passengerDisabilityBlind\":false,",
+							"         \"passengerDisabilityDeaf\":false,",
+							"         \"passengerDisabilityCognitive\":false,",
+							"         \"passengerDisabilityAssistanceAnimal\":false,",
+							"         \"passengerDisabilityEmotionalAnimal\":false,",
+							"         \"passengerDisabilityWheelchairAssistance\":\"NO_NEEDED\",",
+							"         \"passengerDisabilityWheelchairStowage\":\"NO_NEEDED\",",
+							"         \"passengerDisabilitySpillableBatteries\":\"0\",",
+							"         \"passengerDisabilityNonSpillableBatteries\":\"0\",",
+							"         \"passengerDisabilityPeanut\":false,",
+							"         \"passengerDisabilityOxygen\":false,",
+							"         \"passengerType\":\"ADULT\"",
+							"    }];break;",
+							"    case 3:passengerList = [{",
+							"        \"passengerFirstName\":\"{{firstName}}\",",
+							"         \"passengerMiddleName\":\"\",",
+							"         \"passengerLastName\":\"{{lastName}}\",",
+							"         \"passengerSuffix\":\"0\",",
+							"         \"passengerGender\":\"FEMALE\",",
+							"         \"passengerDateOfBirth\":\"1985-08-01\",",
+							"         \"passengerRapidRewards\":\"{{RR}}\",",
+							"         \"passengerRedressTravelerNumber\":\"\",",
+							"         \"passengerKnownTravelerNumber\":\"\",",
+							"         \"passengerPassportCountryOfResidence\":\"\",",
+							"         \"passengerPassportExpirationDate\":\"\",",
+							"         \"passengerPassportIssuedBy\":\"\",",
+							"         \"passengerPassportNationality\":\"\",",
+							"         \"passengerPassportNumber\":\"\",",
+							"         \"passengerDisabilityBlind\":false,",
+							"         \"passengerDisabilityDeaf\":false,",
+							"         \"passengerDisabilityCognitive\":false,",
+							"         \"passengerDisabilityAssistanceAnimal\":false,",
+							"         \"passengerDisabilityEmotionalAnimal\":false,",
+							"         \"passengerDisabilityWheelchairAssistance\":\"NO_NEEDED\",",
+							"         \"passengerDisabilityWheelchairStowage\":\"NO_NEEDED\",",
+							"         \"passengerDisabilitySpillableBatteries\":\"0\",",
+							"         \"passengerDisabilityNonSpillableBatteries\":\"0\",",
+							"         \"passengerDisabilityPeanut\":false,",
+							"         \"passengerDisabilityOxygen\":false,",
+							"         \"passengerType\":\"ADULT\"",
+							"    },{",
+							"         \"passengerFirstName\":\"Test\",",
+							"         \"passengerMiddleName\":\"\",",
+							"         \"passengerLastName\":\"Two\",",
+							"         \"passengerSuffix\":\"0\",",
+							"         \"passengerGender\":\"FEMALE\",",
+							"         \"passengerDateOfBirth\":\"1985-08-01\",",
+							"         \"passengerRapidRewards\":\"\",",
+							"         \"passengerRedressTravelerNumber\":\"\",",
+							"         \"passengerKnownTravelerNumber\":\"\",",
+							"         \"passengerPassportCountryOfResidence\":\"\",",
+							"         \"passengerPassportExpirationDate\":\"\",",
+							"         \"passengerPassportIssuedBy\":\"\",",
+							"         \"passengerPassportNationality\":\"\",",
+							"         \"passengerPassportNumber\":\"\",",
+							"         \"passengerDisabilityBlind\":false,",
+							"         \"passengerDisabilityDeaf\":false,",
+							"         \"passengerDisabilityCognitive\":false,",
+							"         \"passengerDisabilityAssistanceAnimal\":false,",
+							"         \"passengerDisabilityEmotionalAnimal\":false,",
+							"         \"passengerDisabilityWheelchairAssistance\":\"NO_NEEDED\",",
+							"         \"passengerDisabilityWheelchairStowage\":\"NO_NEEDED\",",
+							"         \"passengerDisabilitySpillableBatteries\":\"0\",",
+							"         \"passengerDisabilityNonSpillableBatteries\":\"0\",",
+							"         \"passengerDisabilityPeanut\":false,",
+							"         \"passengerDisabilityOxygen\":false,",
+							"         \"passengerType\":\"ADULT\"",
+							"    },{",
+							"        \"passengerFirstName\":\"Test\",",
+							"        \"passengerMiddleName\":\"\",",
+							"        \"passengerLastName\":\"One\",",
+							"        \"passengerSuffix\":\"0\",",
+							"        \"passengerGender\":\"FEMALE\",",
+							"        \"passengerDateOfBirth\":\"1985-08-01\",",
+							"        \"passengerRapidRewards\":\"\",",
+							"        \"passengerRedressTravelerNumber\":\"\",",
+							"        \"passengerKnownTravelerNumber\":\"\",",
+							"        \"passengerPassportCountryOfResidence\":\"\",",
+							"        \"passengerPassportExpirationDate\":\"\",",
+							"        \"passengerPassportIssuedBy\":\"\",",
+							"        \"passengerPassportNationality\":\"\",",
+							"        \"passengerPassportNumber\":\"\",",
+							"        \"passengerDisabilityBlind\":false,",
+							"        \"passengerDisabilityDeaf\":false,",
+							"        \"passengerDisabilityCognitive\":false,",
+							"        \"passengerDisabilityAssistanceAnimal\":false,",
+							"        \"passengerDisabilityEmotionalAnimal\":false,",
+							"        \"passengerDisabilityWheelchairAssistance\":\"NO_NEEDED\",",
+							"        \"passengerDisabilityWheelchairStowage\":\"NO_NEEDED\",",
+							"        \"passengerDisabilitySpillableBatteries\":\"0\",",
+							"        \"passengerDisabilityNonSpillableBatteries\":\"0\",",
+							"        \"passengerDisabilityPeanut\":false,",
+							"        \"passengerDisabilityOxygen\":false,",
+							"        \"passengerType\":\"ADULT\"",
+							"   }]",
+							"}",
+							"",
+							"pm.globals.set(\"pax\", JSON.stringify(passengerList));",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "sec-fetch-mode",
+						"value": "cors"
+					},
+					{
+						"key": "origin",
+						"value": "https://southwest.{{environment}}.southwest.com"
+					},
+					{
+						"key": "accept-encoding",
+						"value": "gzip, deflate, br"
+					},
+					{
+						"key": "x-user-experience-id",
+						"value": "6d4de70e-0424-44d5-8f1c-aab965f10744"
+					},
+					{
+						"key": "accept-language",
+						"value": "en-US,en;q=0.9"
+					},
+					{
+						"key": "ee30zvqlwf-z",
+						"value": "p"
+					},
+					{
+						"key": "authorization",
+						"value": "null null"
+					},
+					{
+						"key": "ee30zvqlwf-d",
+						"value": "o_0"
+					},
+					{
+						"key": "x-api-idtoken",
+						"value": "null"
+					},
+					{
+						"key": "cookie",
+						"value": "s_ecid=MCMID%7C75460924094402699051210711651239037077; s_fid=0DFB585A29A1DD7D-3DB0627BDEA46E60; MPEL=EL; check=true; AMCVS_65D316D751E563EC0A490D4C%40AdobeOrg=1; s_cc=true; valid_promo=false; versaTag-orderID=9xppndop6kf; first_landing=true; AMCV_65D316D751E563EC0A490D4C%40AdobeOrg=-1303530583%7CMCIDTS%7C18149%7CMCMID%7C75460924094402699051210711651239037077%7CMCAAMLH-1568728516%7C4%7CMCAAMB-1568728516%7CRKhpRz8krg2tLO6pguXWp5olkAcUniQYPHaMWWgdJ3xzPWQmdj0y%7CMCOPTOUT-1568130034s%7CNONE%7CMCAID%7CNONE%7CMCSYNCSOP%7C411-18145%7CvVersion%7C3.3.0%7CMCCIDH%7C687476789; SwaSessionCookie=2F10998301834254B9683BBC8C84E28E; SwaRegionCookie=sessions; _br_uid_2=uid%3D9891871623196%3Av%3D11.8%3Ats%3D1567086113953%3Ahc%3D48; mbox=PC#3c075ca3d1974f13871652183f3bae6e.17_130#1631369365|session#e31ae90c1ab94244b336274ae1737cde#1568126425; s_gpv_pn=BOOK%3AAIR%3ASelect%20Flight%20Page; _derived_epik=dj0yJnU9Z2tQcFZIVTdSUlJkbzZ3ZEx3aU1idEhXTHdfbW5PdUMmbj1ybVBRbTZnZklkdW9uZkNaaUVvODV3Jm09NyZ0PUFBQUFBRjEzcnBj; s_sq=swadev%3D%2526c.%2526a.%2526activitymap.%2526page%253DBOOK%25253AAIR%25253ASelect%252520Flight%252520Page%2526link%253D239%252520Dollars%252520%252524239%252520earn%2525202%25252C090%252520pts%2526region%253Dair-booking-fares-1-3%2526pageIDType%253D1%2526.activitymap%2526.a%2526.c"
+					},
+					{
+						"key": "ee30zvqlwf-f",
+						"value": "A9GGgRttAQAALfisN1Is4lPBx8qeRnvMvrlzvCv9ayT4v8uWNUn8Hp4g1EMlAdENm2Oucn01wH8AADQwAAAAAA=="
+					},
+					{
+						"key": "ee30zvqlwf-c",
+						"value": "A0rofxttAQAAAFfFKqIqpkDapnexDvw3vAwm8i7ZPsc_y5Vf4HGCtSTFmOPmAUGqKQWucn01wH8AAEB3AAAAAA=="
+					},
+					{
+						"key": "x-channel-id",
+						"value": "southwest"
+					},
+					{
+						"key": "ee30zvqlwf-a",
+						"value": "2830TukLqTkmHHCK-=FW2tOSf-FOZbQfFJ7VKHKthWpqgU6_YltNVER=0Vq-S12AHEf7-13vL-JFCJOhkFqGBeq=-=GB7=uGNVf_MBSwrbZL4VDTEgNtsUsO6OY9xTHsu-eNitPP5=r8qM79sBgQoxJGEB7rjPxcmAw5vJBRzTG8CXrmqtw_OOnVruhwunjtjUkrrBwgZA0x3oTFc4yut-vyb5WJ9hO4POQyb_32mcNBN_f-tnmfBcetVaDvg4u-z5O_GhuAjD9bsGG5ob-WtUQWTPO23RizgFXtPouLjwhED2Iw4pPz2RA=C79Q744bBl09lPill2LU_RD1uoJe19p5YhGWAEPBhK1PYitK5Ms_einv4CxS=xBtx-qDGI28PbDI765=C2xD15Bs3lYFO7pyiGg_18xmkn43uw=UKKI=b4tY2EVjpZy-STo54ymOcZDFZvfwpT3YokN2=JoykLevwcv8kvzYTPp13qkjQS0c0bMozXZPcYotSZziVwDQZDt=M3UOKRg4RZpvUZWNsJfOtJJJCxzJV08qsZ=o9H4VIKeA5mI8sXG5aT142IPx_Ysnj8z21yy-53ncy1MZ-MFjxivIrhvt_UmO6f4OV6VwEMJ77jY_5hl6OqzXlgJu0e3G216M633VBypbm-ZE56XLs9HVKgqsxTb8F_NSe=VgUiqPjAQkoBp=iVh2VL0rk2ATJx=3ccRBE3SWIQ9D6S5viC7ZGo5paz=RHwHMGr0KnA7b85thRcmczjvy6wznDTtigjjx07UgAuespFIqi=sIWr6WnQ1wt8mSOHJbV5Y4U7ftF41=ApSGKsMUHKeSXhJiGb_S6ORxUOzexcIrcpbH1v_T_VbvrN1wbHO2LfELG1UsNzRfRGA5XJ43DCG35s5HoaGg8zptXoBVTxIEsqrH9l=TgGVUtI16EY1gyuCcmEJMslUMfi7wDhBcucBEhlS_Lv=o9eMKzyKeE7bR-EYs2HhiGQ_LBRay=VpGRib4Pl_oTW_Mfs1w2ayobshoKFJ2XW_IyV=JngiTYIYrWaB1BFT4G_PDiV6vEx2RzNShLgho5U6I6swDPwSjDh2WfAUL3N6IRa3gHP8I=aQi2YZD-zmj_kGpmsn3bQ0SLzsjArtaDNfAZIIbIpBKJeDoYMIaQ1zBOoPF1NY8EByzQXJ1VjtArWZyYL-zwoo0HQvknH5T5lhlev8Kv3R_AIa4nwOxuz2qqYFCIP4DaKp5Tuj3PbGTtoaEEFe_i8vM4xt82vSOvuMznhOFLRTGqffgjv8Gwunn06WFGTXx7KAb9rH3RcwQHa6RKk5iBA5KzALR3zGAbj8Qbk0JhI=Mi2c_rc_3=i4AN3WGhWyxuA3poLSVCkaUNAjAbYoKTli5LDG8M7vb3Yfh9i01wAouugXlvpqCO89J6ekzuY4V6=Sgjnce6mc5koh=AqvFriNZ1aNIm9fb_SHQ86Kv51Z7ZNGkIuXcjLIJQ1jDbqLnSsxtvvVYtxIWhZ9EsW-32YvGVP0CPtai4lYB26jkVGuoQFi4lJ7xAW7Zx6p2P9ENb2oCDrAQZw46zBWyxA=RI69E_uBIBWfp7tTPlW=trmTeMgs_PMhWkcLNnE=4uf7ini_iBxIaoj5xDArzlwbzoNQOI4Ateu3cg2nCJVgYgPnuUcUVYycsLpjFQhO1AoCnu__xTmw2weIwa4km6pRZIOIozj9w0lBis2oQ4uHSuUOm84xNGHlLCh141jODDIiPack00C4MjXln8Pg_lXWNoz4UetAEOVv6DaCTwKeD0GjGZFVqLJwITVSJ1moInVm9anIlgYTHHVPX5pt7nMrlKpA-0=CnUZX86Tx7np0F5gDc2fPUYEBmnCSQgQo1aEzsQ3JTeTUHJV92JfBh9jGc_88qIJl6szOrXwwREP-XcuPAJHGrZykQsZ7lhggx1A9fwnXhRBzIE9vTr8RZGZk=XSgnxxDVWbBOPZbB-8MNS6tL0cFSsOjKjqkbnbJj9Y0lfiVENfoCC4vf4UmtywTqkPRnYRLHF_pIVvlq1VBzirIYbsrLU2AgExlF6fIjC5SxILp2UTJ9=32jveIWhLJRIRHn7j8Ij1AGVo4ewgzzJMiyMsMJx3g8auyU6MY0H0_OMWqwA6zQh0IM6VAaUEt-vFu7_63RIrVWOYmuozNShWeBvhAgGgBE3TKj0coABUXRBSsv-a2TX_YiF6rYr4HlqikmPzrk4NHMwcilazi7Q7mceeazpgTHCK79HFOAOizxD=TsrnQP6euXz6nIY8WiwYiMCw-MAK8irhBOqLP9FbuEi=K89mUGem80OGj5a_Rz65SQkVAII_w6IAfFMB_N8HQOTsDQmgM=e1w4u-zwgZuOqcFk7AmO=Ym9alMmnRAwcV8kgXCiNlTsVusvUcytAMK_-P4m28A5EpnzwimQNRjO8qNURw1pLgKRfkYqD-oAScz4CkZ72N4jI1VkAtFpFno5QMm-RbRgXjK0eUh-JcGWnS2aO4mTbhOIJCnB=L=OUnCBwpl=fBAqkFY_ihpbeYNSZxusCNF5JaE-nzfBJ9L-Os3beql4ZaRLCWuzkGf_QhAzXNkhH2Lr7ouM2Yi=6csSDyKUjJDP4iGBYjnD1jJLtfrysg5NXocPFngtUjFVKfePbB82QPS-MUeu6_X5JGnD1E7nnWBbVVMUNp827ZOXGlKtqOqsh4k1RuAMOfUjHtw0ER7cBBptbgpTMVEB2YcpuIi=8T1Vjm3_7rbYkzreU7lubIyafe=0NC9LNXgSO19RPiLaWQ0XyW2TiC-UU6nZSqFy7c4fC24Wztx=DcKN8ECA9i0su9E9S64WceGURCfex7PKLBhavnhUzu35w_sH1lREkEgqiBX55AWNxBEsCT9G007YrDWQtsRbLbhulE0b=_XEob9M_izr31fpGyyhrnXr35uLG56gwZSCK=wRq0oDxrpUJSKw6DvUGEt3SP=_-2fRm9DcJXU7ohmWRDWRj35uV--7KbOQOY0eP5O78YL--7xLv1OorY6oN8AkFzyN0rk0LAzHZ9Aom6HsyvWw50qt5OLYA8ycuQ=GzuDOpSRfTtbB0XHCKoceIj8YMH4v6PanTs87QCMXZktfw6GmKEgMA70I5LjRCFDHIlgNt5S4r1yjEE=9SsPD9JpzlHXJYej36-KDYcQja5ThGtv2YGu6RLnIqNZwS55=z37YsPrnaHnNKfBacb_ho3F5UnipfP_EM6D6Z8a9kf=68Xcs5gXXjGE2ZyOemqNJpKSLHya_GuwKfwepHMCz-X GiK5EiaiHa7m-CahP7UIBESQaEE0S8yMoSMKm=lGCfjfUI39FzTmAo45rKqTFaOG7=Cci=42SLZYmjgtZ7m6hwqvhIDEvl1ivhj722zsi82CR-Q6e1ADI8e6_GbjvJYPB7s-T3gzrIFkI1DIc5SZp6gDE6xyEGSj5C-5-qhC51bj4yshpYYfQvH1=2hcCUux6MPG5E=2ufXaTqgeY54FV9mQZw_Zt=IBQX1Hk-oBRpq_--O49Bpa3aJi84=XgkNE9bUv-pmxopuND5HsphnZAf36VMcTBZ05RQoYrhip55VztA=gZzPP1ULBGa6ge8raEhHylKzsu0nxaoN=AnnBcxbTNZVj=wVfAEbND7oFgtUPExnlumSD5Ca28wSV5PhGeGLNHn6jJG-mmNDL687MY6ae9S7NS6rC-r=3Ij0FPKI=QOWEs9ceQSxy7rA11Q0MK8akSWTJqZlcCurGxsD8M0oQEP_tPGIxOvfVahg3A98nH4BkvTaQwKV9G9ZsHSx2hubPwa1PTSEPAeG-jTYH8AHqNls-Bs-a3wtakyJQHYHs-ey7nrb_uh=2yRxaErZQQw36S_6vjbfIa2fDwFrmatV5m=ApXW8GhrkvK-KsQNx6ayTSX4wffa5iIixUMjLK=WZ3ATLx5CWpsT6olu3zos0_a_-KcYN3IE78=MtNi_2moMeykuma=u7A8s8_zC=P1X_MUwOK_xpf5EzVosO0NN6sRO1G0PiMt-hN3L8tAfKwZoViEPjBDZV7_vAQlvZGWUi6t4aWWLmNgE_WsokAbG9oFjtPVUPCHOwJiX8twZFginujCt-UkRcfIqSrWvk_Tq-67vvGjWjS4CElUKJi3MxCSZILW_-JRROZ9G6tOySzFfeICTYavHvrW00RUsonAfX-KawlFHHOnMnXHZ7GfEfR2j-8HnsL_rz=jGyiApomiVaQe6VwFQ-mAbLJ6tnXaP9WoD8mxYNqYrPxb6AU0wotzco1P9RTyToY343JT94VXxjzFcQ1KHnSx1JD4j2_qIZPZmbtTUUbZt5p6UhwOvw-upQyiGTzgQtDQncVwQisiEWwV6rCozv6MCruu3Q6NfGH0vojAGzNy1g7w3wspI0T7vUOY2RmmXcYs_RfPAu7Qm5f6R0su-FD5GD8bQuDkrS2TJlHpzlUsflu4c0iMnR=3FwVQBXuT8uwIxrEn2-w11kUWZ2=p76QHvT61sHfp-Cu4qDlrlDk0cOJVUDCDvh_kY_uUbP=G59H5PYH0F1J-3S1tJLu1Y2wf4B_CYqyPx3skwFItBKZNiny=4xaQyRhrfu4NNpmMK9AE1KPk8Rn26phfhloV_4_iy3Olhs687BwTOTv0pyK3CnOQvPj8tS3kQr-JIe1afB4xuODz8p5EQHmsu5VwubiWKiIBm1VTtz17Gm1q3iD0iLhW8W5fsNt5f3etlP5Airl34V9Z1fYxiOgU6LVpbWQnQSVCM=MqaV529tun8uCfJjpxnurLuB5ffpsfQ6YFgJVBt2pwh7vXgj0yHf7KxDs74hVYvNSH8orsIjiDfyaYzvPL57Mj6oETORv6aHrsw2Fv8=uu1iL_ePhtr3ROF_v2-bcH_n-1a5GOJGwUz_Qnhj5CDZWDW0TCsTIaR5KYegvWtTfOCWoG9zoiwMHrinAOs9q39JFMSS9tS3ujNwsWsr-CvXcJ_5DZ9Gj-9H3IsOO4oxiLXe9cckSZJo8_NphA0VY-aHObrJpkOhuBs5CX=XxsDkInKURLJQ_PgxREffJOZipumhXHEFnY9SLI5jHFNTfjmKrElnsYO4LZhiUA26NQva1vLzPKpqgNwP4g6lR1B_gbUYSc5DPJZIH3vP-98902-QBXKLBtp_Wr=DszgVfIgR80=9WaYcOgAirVIGEsXL8MMLwu=ZQI7sxP_mL5HxtBgW9g-Q3_NebOlf4NmGk6aOfC-7Ws1H3BbrEvIFUwB00z4ezJMjoa77MaH57L=iRCGYsJRSWtcsAAOM2EEOe3OM6olse7=N5ObnfK5uTtNoPAq2n1xxBPzlReZW27eVx4XXE0TsR-8E_6Q6Iui=k6kgMc_QUwNW6Fi4-6p3MMxTO1olhBPVNDAUWGnJ76hE4j=aG2RLpQnMB__AB34_l5O2OcBYu1UK5VNZIWcwQZfOMbHc9vMUwQfgkzS=Sk2MNMH1JIU283meoPua_2RHWPSoTQxh0FArqMgzUaNgwClruJ6LAwCeF3vaz7CCE3v4TO6yGRZt_6Up4l2D-OMP7lt4lp5lp5K1ffFlU-_nxW2tBk8Det6_pgE8kV1bO64FI4ZugblG_9KaVka-Z-SB7SCWq6u3076vAS6DfGInIrCH3RByhPzpuRCjh-6b_iH0lg_iIUUNR-8zJUCPFOAJlg25Ti5G8WKjG7eBNfz6fk0QhfK0RsL2FrHKR99IlGbsXKlrWCgb_1_4ej=S8s5jBZjNuEbzie3ro7rgcPMz_ih2Hhi_9Wc6oi3aO0VHOXjLhF2wVV72Htvvnly3vyWvf1y6_zxFUXeEmbVVexWJpfcnY0jlxqAnfK3eU8-D2K8R4PaVR3gRWz0NnYaWJZsvnYRrBSv7Mma-=JBKDK-Du=G6gtGPkF9OmSZEbpI3w7wFF7SAB5VJu6FK6K4Ka2AmAwBcFG0Y6fX2mx5qHg0vJqDAta7xkfWuL2llC4cpfZnlkppcL-HeRUXvG3Gf9JntABof7kTArDw14e=7ezZfSb0UtNwqEwZ90hZENkrWXpFXxY4w_Ug1o6Dt_FPR7ObR-TimnYyECAnmCgzxRF7L1TJGSiezwy4MvZj8xYEYIDu_21f2fcHC0KLW5-UaYep1gYcxDy0QRvmgacKGOLS4GbPk8kU8UI1VlAMDFRhH7uBp9l7UoHyGkCDYn5tADFLrcSNZwLtT_4ULqR3Jcbu62BwLP3u-6QV0auk=iWsiaEo3=f-eU1W=ex_qs5-RvFoFnp1wjZ1iEB0TMkD_7QZx7z27bDPiiyZWMYK6ON8ngtrmRIGQkgmYghu1UzijSinUS2oRgyWswlEWuX92Z=Wc3PUy63KHCpLjBt64woo7UzZcb5_rfAaMoATJRT5_=nhDmh5Ox=jRAl_h1236hoXnsMkZfWrC9A9QvQQ8=G13S-rX_90iubXjpaVMFX7rEsF4BGCeWv89Fce9HMYhIDQxDNK-=A7xGZswFcfowS5CCVCwysC-4bw3FzsT8qSs9xzZiKfWpo_oL=7cuMfRlCg7vMme9iZBCKf3_PRJD59IBiFUp7=3CP9iJzz9V2UxE6T0Jynsc6-SpoFAQ0cbgDRKk0ryEk-zJIKgb78pWG8RXy8ByYHVX42vst6II4fen11JxJHRZPP_0zMUiQf"
+					},
+					{
+						"key": "user-agent",
+						"value": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"
+					},
+					{
+						"key": "content-type",
+						"value": "application/json"
+					},
+					{
+						"key": "accept",
+						"value": "application/json, text/javascript, */*; q=0.01"
+					},
+					{
+						"key": "referer",
+						"value": "https://southwest.{{environment}}.southwest.com/air/booking/select.html?adultPassengersCount=1&departureDate=2019-09-16&departureTimeOfDay=ALL_DAY&destinationAirportCode=HOU&fareType=USD&originationAirportCode=DAL&passengerType=ADULT&returnDate=2019-09-27&returnTimeOfDay=ALL_DAY&seniorPassengersCount=0&tripType=roundtrip"
+					},
+					{
+						"key": "authority",
+						"value": "southwest.{{environment}}.southwest.com"
+					},
+					{
+						"key": "sec-fetch-site",
+						"value": "same-origin"
+					},
+					{
+						"key": "x-api-key",
+						"value": "l7xx72f4d7a942b94b648fddadedcc7fe4f3"
+					},
+					{
+						"key": "ee30zvqlwf-b",
+						"value": "cdeog4"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \n   \"adultPassengersCount\":\"{{paxNumber}}\",\n   \"currencyCode\":\"USD\",\n   \"currencyType\":\"REVENUE\",\n   \"requiredPricingInfo\":true,\n   \"segmentProducts\":[ \n      { \n         \"ADULT\":\"{{segmentProducts0}}\"\n      },\n      { \n         \"ADULT\":\"{{segmentProducts1}}\"\n      }\n   ],\n   \"seniorPassengersCount\":\"0\",\n   \"application\":\"air-booking\",\n   \"site\":\"southwest\"\n}"
+				},
+				"url": {
+					"raw": "https://southwest.{{environment}}.southwest.com/api/air-booking/v1/air-booking/page/air/booking/price",
+					"protocol": "https",
+					"host": [
+						"southwest",
+						"{{environment}}",
+						"southwest",
+						"com"
+					],
+					"path": [
+						"api",
+						"air-booking",
+						"v1",
+						"air-booking",
+						"page",
+						"air",
+						"booking",
+						"price"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirmacion",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "52d3d660-cc9a-46d1-994a-a1e112c0956f",
+						"exec": [
+							"var responseData=JSON.parse(responseBody);",
+							"",
+							"if (responseCode.code === 200){",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"console.log(\"Success!!\");",
+							"console.log(\"confirmationNumber:\");",
+							"console.log(responseData.data.searchResults.reservations.air.ADULT.confirmationNumber); ",
+							"console.log(\"firstName:\");",
+							"console.log(responseData.data.searchResults.reservations.air.ADULT.passengers[0].name.firstName); ",
+							"console.log(\"lastName:\");",
+							"console.log(responseData.data.searchResults.reservations.air.ADULT.passengers[0].name.lastName); ",
+							"}",
+							"else{",
+							"    console.log(\"Failed!\");",
+							"}",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "40bb9189-cce6-4253-a943-856baeef1132",
+						"exec": [
+							"var x = pm.globals.get(\"totalFare\");",
+							"var y = pm.globals.get(\"paxNumber\");",
+							"var z = x*y;",
+							"pm.globals.set(\"total\", z);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "sec-fetch-mode",
+						"value": "cors"
+					},
+					{
+						"key": "origin",
+						"value": "https://southwest.{{environment}}.southwest.com"
+					},
+					{
+						"key": "accept-encoding",
+						"value": "gzip, deflate, br"
+					},
+					{
+						"key": "x-user-experience-id",
+						"value": "6d4de70e-0424-44d5-8f1c-aab965f10744"
+					},
+					{
+						"key": "accept-language",
+						"value": "en-US,en;q=0.9"
+					},
+					{
+						"key": "authorization",
+						"value": "null null"
+					},
+					{
+						"key": "x-api-idtoken",
+						"value": "null"
+					},
+					{
+						"key": "cookie",
+						"value": "s_ecid=MCMID%7C75460924094402699051210711651239037077; s_fid=0DFB585A29A1DD7D-3DB0627BDEA46E60; MPEL=EL; check=true; AMCVS_65D316D751E563EC0A490D4C%40AdobeOrg=1; s_cc=true; valid_promo=false; versaTag-orderID=9xppndop6kf; first_landing=true; AMCV_65D316D751E563EC0A490D4C%40AdobeOrg=-1303530583%7CMCIDTS%7C18149%7CMCMID%7C75460924094402699051210711651239037077%7CMCAAMLH-1568728516%7C4%7CMCAAMB-1568728516%7CRKhpRz8krg2tLO6pguXWp5olkAcUniQYPHaMWWgdJ3xzPWQmdj0y%7CMCOPTOUT-1568130034s%7CNONE%7CMCAID%7CNONE%7CMCSYNCSOP%7C411-18145%7CvVersion%7C3.3.0%7CMCCIDH%7C687476789; SwaSessionCookie=2F10998301834254B9683BBC8C84E28E; SwaRegionCookie=sessions; _br_uid_2=uid%3D9891871623196%3Av%3D11.8%3Ats%3D1567086113953%3Ahc%3D48; _derived_epik=dj0yJnU9Z2tQcFZIVTdSUlJkbzZ3ZEx3aU1idEhXTHdfbW5PdUMmbj1ybVBRbTZnZklkdW9uZkNaaUVvODV3Jm09NyZ0PUFBQUFBRjEzcnBj; s_sq=%5B%5BB%5D%5D; mbox=PC#3c075ca3d1974f13871652183f3bae6e.17_130#1631369490|session#e31ae90c1ab94244b336274ae1737cde#1568126550; s_gpv_pn=BOOK%3ASWA%3APurchase%20Page"
+					},
+					{
+						"key": "x-channel-id",
+						"value": "southwest"
+					},
+					{
+						"key": "user-agent",
+						"value": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"
+					},
+					{
+						"key": "content-type",
+						"value": "application/json"
+					},
+					{
+						"key": "accept",
+						"value": "application/json, text/javascript, */*; q=0.01"
+					},
+					{
+						"key": "referer",
+						"value": "https://southwest.{{environment}}.southwest.com/air/booking/purchase.html"
+					},
+					{
+						"key": "authority",
+						"value": "southwest.{{environment}}.southwest.com"
+					},
+					{
+						"key": "sec-fetch-site",
+						"value": "same-origin"
+					},
+					{
+						"key": "x-api-key",
+						"value": "l7xx72f4d7a942b94b648fddadedcc7fe4f3"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \n   \"planSectionFirstEmail\":\"\",\n   \"planSectionSecondEmail\":\"\",\n   \"planSectionThirdEmail\":\"\",\n   \"planSectionFourthEmail\":\"\",\n   \"fundsCoverTotalFlight\":false,\n   \"paymentMethodSelected\":\"creditcard\",\n   \"savedCreditCardSelected\":false,\n   \"cvvHidden\":false,\n   \"aboutTripBusinessCheckBox\":false,\n   \"aboutTripFirstTimeCheckBox\":false,\n   \"aboutTripPersonalCheckBox\":false,\n   \"savedEmailAddress\":\"\",\n   \"savedReceiptEmailSelected\":false,\n   \"sendYourReceiptEmail\":\"email@email.com\",\n   \"contactCountryCode\":\"1\",\n   \"contactEmailAddress\":\"\",\n   \"contactMethod\":\"text\",\n   \"contactOptOut\":false,\n   \"contactPhoneNumber\":\"2345678998\",\n   \"contactPreferredLanguage\":\"EN\",\n   \"cartProducts\":{ \n      \"air\":{ \n         \"fares\":{ \n            \"0\":{ \n               \"departureDate\":\"{{departureDate}}\",\n               \"destinationAirportCode\":\"{{arrival}}\",\n               \"international\":{{international}},\n               \"nextDay\":false,\n               \"originationAirportCode\":\"{{departure}}\",\n               \"ADULT\":{ \n                  \"arrivalTime\":\"08:05\",\n                  \"departureTime\":\"07:00\",\n                  \"fareData\":{ \n                     \"productId\":\"{{segmentProducts0}}\",\n                     \"classOfService\":\"Y\",\n                     \"passengerType\":\"ADULT\",\n                     \"availabilityStatus\":\"AVAILABLE\",\n                     \"originalFare\":null,\n                     \"fare\":{ \n                        \"baseFare\":{ \n                           \"value\":\"209.00\",\n                           \"currencyCode\":\"USD\"\n                        },\n                        \"totalTaxesAndFees\":{ \n                           \"value\":\"29.98\",\n                           \"currencyCode\":\"USD\"\n                        },\n                        \"totalFare\":{ \n                           \"value\":\"238.98\",\n                           \"currencyCode\":\"USD\"\n                        },\n                        \"accrualPoints\":\"2090\"\n                     },\n                     \"waivedFare\":null\n                  },\n                  \"fareType\":\"{{fareType}}\",\n                  \"flightNumbers\":[ \n                     \"1\"\n                  ],\n                  \"hasUpgradeData\":true,\n                  \"nextDay\":false,\n                  \"rowSummary\":{ \n                     \"ANY\":\"238.98\",\n                     \"BUS\":\"266.98\",\n                     \"WGA\":\"169.98\"\n                  },\n                  \"drawerUpgradeAccepted\":false,\n                  \"drawerUpgradeOffered\":true,\n                  \"modalUpgradeAccepted\":false,\n                  \"modalUpgradeOffered\":false\n               }\n            },\n            \"1\":{ \n               \"departureDate\":\"{{returnDate}}\",\n               \"destinationAirportCode\":\"{{departure}}\",\n               \"international\":{{international}},\n               \"nextDay\":false,\n               \"originationAirportCode\":\"{{arrival}}\",\n               \"ADULT\":{ \n                  \"arrivalTime\":\"08:30\",\n                  \"departureTime\":\"07:30\",\n                  \"fareData\":{ \n                     \"productId\":\"{{segmentProducts1}}\",\n                     \"classOfService\":\"Y\",\n                     \"passengerType\":\"ADULT\",\n                     \"availabilityStatus\":\"AVAILABLE\",\n                     \"originalFare\":null,\n                     \"fare\":{ \n                        \"baseFare\":{ \n                           \"value\":\"209.00\",\n                           \"currencyCode\":\"USD\"\n                        },\n                        \"totalTaxesAndFees\":{ \n                           \"value\":\"29.98\",\n                           \"currencyCode\":\"USD\"\n                        },\n                        \"totalFare\":{ \n                           \"value\":\"238.98\",\n                           \"currencyCode\":\"USD\"\n                        },\n                        \"accrualPoints\":\"2090\"\n                     },\n                     \"waivedFare\":null\n                  },\n                  \"fareType\":\"{{fareType}}\",\n                  \"flightNumbers\":[ \n                     \"6\"\n                  ],\n                  \"hasUpgradeData\":true,\n                  \"nextDay\":false,\n                  \"rowSummary\":{ \n                     \"ANY\":\"238.98\",\n                     \"BUS\":\"266.98\",\n                     \"WGA\":\"169.98\"\n                  },\n                  \"drawerUpgradeAccepted\":false,\n                  \"drawerUpgradeOffered\":true,\n                  \"modalUpgradeAccepted\":false,\n                  \"modalUpgradeOffered\":false\n               }\n            }\n         },\n         \"id\":\"air\",\n         \"query\":{ \n            \"adultPassengersCount\":\"{{paxNumber}}\",\n            \"departureDate\":\"{{departureDate}}\",\n            \"departureTimeOfDay\":\"ALL_DAY\",\n            \"destinationAirportCode\":\"{{arrival}}\",\n            \"fareType\":\"USD\",\n            \"originationAirportCode\":\"{{departure}}\",\n            \"passengerType\":\"ADULT\",\n            \"returnDate\":\"{{returnDate}}\",\n            \"returnTimeOfDay\":\"ALL_DAY\",\n            \"seniorPassengersCount\":\"0\",\n            \"tripType\":\"roundtrip\"\n         },\n         \"earlyBirdProduct\":null,\n         \"funds\":null,\n         \"unaccompaniedMinorFee\":null,\n         \"itineraryPricings\":[ \n            { \n               \"passengerType\":\"ADULT\",\n               \"numberOfPassengers\":{{paxNumber}},\n               \"accountNumber\":null,\n               \"rapidRewardTier\":null,\n               \"pricingRecord\":{ \n                  \"recordType\":\"FARE\",\n                  \"farePassengerType\":\"ADULT\",\n                  \"farePricingType\":\"ADULT\",\n                  \"productIds\":[ \n                     \"{{segmentProducts0}}\",\n                     \"{{segmentProducts1}}\"\n                  ],\n                  \"fare\":{ \n                     \"baseFare\":{ \n                        \"value\":\"{{baseFare}}\",\n                        \"currencyCode\":\"USD\"\n                     },\n                     \"fareTaxesAndFees\":[    { \n                           \"code\":\"XX\",\n                           \"codeDescription\":\"XXXXXXXXXXXXXx\",\n                           \"type\":\"LO\",\n                           \"typeDescription\":\"Local\",\n                           \"amount\":{ \n                              \"value\":\"{{taxFare}}\",\n                              \"currencyCode\":\"USD\"\n                           }\n                        }\n                     ],\n                     \"totalTaxesAndFees\":{ \n                        \"value\":\"{{taxFare}}\",\n                        \"currencyCode\":\"USD\"\n                     },\n                     \"totalFare\":{ \n                        \"value\":\"{{totalFare}}\",\n                        \"currencyCode\":\"USD\"\n                     },\n                     \"accrualPoints\":4180,\n                     \"fareType\":\"NONDISCOUNT\"\n                  },\n                  \"pricingRecordReference\":\"1\"\n               },\n               \"pointsTotal\":null,\n               \"airTotal\":{ \n                  \"value\":\"{{total}}\",\n                  \"currencyCode\":\"USD\"\n               },\n               \"changeItinerary\":null,\n               \"changeReservationInformation\":null,\n               \"waivedFare\":null\n            }\n         ],\n         \"lastPriceUpdate\":\"2019-09-10T09:10:28-05:00\"\n      }\n   },\n   \"application\":\"air-booking\",\n   \"site\":\"southwest\",\n   \"creditCard\":{ \n      \"cardNumber\":\"{{creditCard}}\",\n      \"cityTown\":\"City\",\n      \"country\":\"US\",\n      \"countryCode\":\"1\",\n      \"creditCardType\":\"VISA\",\n      \"expiration\":\"10-2020\",\n      \"firstNameOnCard\":\"Agustin\",\n      \"lastNameOnCard\":\"Silveira\",\n      \"phoneNumber\":\"2345678998\",\n      \"primary\":false,\n      \"provinceRegion\":\"\",\n      \"securityCode\":\"123\",\n      \"state\":\"AL\",\n      \"streetAddress\":\"Street\",\n      \"streetAddressSecond\":\"\",\n      \"zipCode\":\"12345\",\n      \"zipCodeRequired\":true\n   },\n   \"passengersList\":{{pax}}\n}"
+				},
+				"url": {
+					"raw": "https://southwest.{{environment}}.southwest.com/api/air-booking/v1/air-booking/page/air/booking/confirmation",
+					"protocol": "https",
+					"host": [
+						"southwest",
+						"{{environment}}",
+						"southwest",
+						"com"
+					],
+					"path": [
+						"api",
+						"air-booking",
+						"v1",
+						"air-booking",
+						"page",
+						"air",
+						"booking",
+						"confirmation"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

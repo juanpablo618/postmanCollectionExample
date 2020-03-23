@@ -1,0 +1,139 @@
+{
+	"id": "506283f2-9ba9-4575-8efb-25662138c05a",
+	"values": [
+		{
+			"key": "departureDate",
+			"value": "2020-02-22",
+			"enabled": true
+		},
+		{
+			"key": "returnDate",
+			"value": "2020-02-23",
+			"enabled": true
+		},
+		{
+			"key": "segmentProducts0",
+			"value": "ANY|ADT|YL,Y,HOU,DAL,2020-02-22T21:55-06:00,2020-02-22T23:00-06:00,WN,WN,5656,73W",
+			"enabled": true
+		},
+		{
+			"key": "segmentProducts1",
+			"value": "ANY|ADT|YL,Y,DAL,HOU,2020-02-23T06:30-06:00,2020-02-23T07:40-06:00,WN,WN,201,738",
+			"enabled": true
+		},
+		{
+			"key": "baseFare",
+			"value": "427.12",
+			"enabled": true
+		},
+		{
+			"key": "taxFare",
+			"value": "60.84",
+			"enabled": true
+		},
+		{
+			"key": "totalFare",
+			"value": "487.96",
+			"enabled": true
+		},
+		{
+			"key": "creditCard",
+			"value": 4111999999999999,
+			"enabled": true
+		},
+		{
+			"key": "checkIn",
+			"value": "false",
+			"enabled": true
+		},
+		{
+			"key": "environment",
+			"value": "dev2",
+			"enabled": true
+		},
+		{
+			"key": "departure",
+			"value": "HOU",
+			"enabled": true
+		},
+		{
+			"key": "arrival",
+			"value": "DAL",
+			"enabled": true
+		},
+		{
+			"key": "international",
+			"value": "true",
+			"enabled": true
+		},
+		{
+			"key": "fareType",
+			"value": "ANY",
+			"enabled": true
+		},
+		{
+			"key": "RR",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "firstName\n",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "lastName\n",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "pax",
+			"value": "[{\"passengerFirstName\":\"{{firstName}}\",\"passengerMiddleName\":\"\",\"passengerLastName\":\"{{lastName}}\",\"passengerSuffix\":\"0\",\"passengerGender\":\"FEMALE\",\"passengerDateOfBirth\":\"1985-08-01\",\"passengerRapidRewards\":\"{{RR}}\",\"passengerRedressTravelerNumber\":\"\",\"passengerKnownTravelerNumber\":\"\",\"passengerPassportCountryOfResidence\":\"\",\"passengerPassportExpirationDate\":\"\",\"passengerPassportIssuedBy\":\"\",\"passengerPassportNationality\":\"\",\"passengerPassportNumber\":\"\",\"passengerDisabilityBlind\":false,\"passengerDisabilityDeaf\":false,\"passengerDisabilityCognitive\":false,\"passengerDisabilityAssistanceAnimal\":false,\"passengerDisabilityEmotionalAnimal\":false,\"passengerDisabilityWheelchairAssistance\":\"NO_NEEDED\",\"passengerDisabilityWheelchairStowage\":\"NO_NEEDED\",\"passengerDisabilitySpillableBatteries\":\"0\",\"passengerDisabilityNonSpillableBatteries\":\"0\",\"passengerDisabilityPeanut\":false,\"passengerDisabilityOxygen\":false,\"passengerType\":\"ADULT\"}]",
+			"enabled": true
+		},
+		{
+			"key": "firstName",
+			"value": "Adult",
+			"enabled": true
+		},
+		{
+			"key": "lastName",
+			"value": "One",
+			"enabled": true
+		},
+		{
+			"key": "paxNumber",
+			"value": 1,
+			"enabled": true
+		},
+		{
+			"key": "secondPaxName",
+			"value": "gDATG",
+			"enabled": true
+		},
+		{
+			"key": "secondPaxLastName",
+			"value": "CNyvv",
+			"enabled": true
+		},
+		{
+			"key": "total",
+			"value": 487.96,
+			"enabled": true
+		},
+		{
+			"key": "thirdPaxName",
+			"value": "fxPIN",
+			"enabled": true
+		},
+		{
+			"key": "thridPaxLastName",
+			"value": "jGoSD",
+			"enabled": true
+		}
+	],
+	"name": "My Workspace Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2020-02-13T18:57:07.215Z",
+	"_postman_exported_using": "Postman/7.18.0"
+}

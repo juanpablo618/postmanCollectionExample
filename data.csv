@@ -1,0 +1,2 @@
+fareType,checkIn,departure,arrival,environment,cardNumber,rapidReward,firstName,lastName,paxNumber,international
+ANY,false,HOU,DAL,dev2,4111999999999999,,Adult,One,1,true
